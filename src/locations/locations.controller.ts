@@ -23,10 +23,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CreateLocationUseCase } from '../application/create-location.use-case';
-import { ListLocationsUseCase } from '../application/list-locations.use-case';
-import { UpdateLocationUseCase } from '../application/update-location.use-case';
-import { DeleteLocationUseCase } from '../application/delete-location.use-case';
+import { CreateLocationUseCase } from './application/create-location.use-case';
+import { ListLocationsUseCase } from './application/list-locations.use-case';
+import { UpdateLocationUseCase } from './application/update-location.use-case';
+import { DeleteLocationUseCase } from './application/delete-location.use-case';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 

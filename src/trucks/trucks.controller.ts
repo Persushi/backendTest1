@@ -23,38 +23,27 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser, type JwtPayload } from '../auth/decorators/current-user.decorator';
-import { CreateTruckUseCase } from '../application/create-truck.use-case';
-import { ListTrucksUseCase } from '../application/list-trucks.use-case';
-import { UpdateTruckUseCase } from '../application/update-truck.use-case';
-import { DeleteTruckUseCase } from '../application/delete-truck.use-case';
+import { CreateTruckUseCase } from './application/create-truck.use-case';
+import { ListTrucksUseCase } from './application/list-trucks.use-case';
+import { UpdateTruckUseCase } from './application/update-truck.use-case';
+import { DeleteTruckUseCase } from './application/delete-truck.use-case';
 import { CreateTruckDto } from './dto/create-truck.dto';
 import { UpdateTruckDto } from './dto/update-truck.dto';
 
 class TruckUserResponseDto {
-  @ApiProperty({ example: '64a1f2c3e4b5d6f7a8b9c0d2' })
-  _id: string;
-
-  @ApiProperty({ example: 'owner@example.com' })
-  email: string;
+  @ApiProperty({ example: '64a1f2c3e4b5d6f7a8b9c0d2' }) _id: string;
+  @ApiProperty({ example: 'owner@example.com' }) email: string;
 }
 
 class TruckResponseDto {
-  @ApiProperty({ example: '64a1f2c3e4b5d6f7a8b9c0d1' })
-  _id: string;
-
-  @ApiProperty({ example: '2021' })
-  year: string;
-
-  @ApiProperty({ example: 'Red' })
-  color: string;
-
-  @ApiProperty({ example: 'ABC-1234' })
-  plates: string;
+  @ApiProperty({ example: '64a1f2c3e4b5d6f7a8b9c0d1' }) _id: string;
+  @ApiProperty({ example: '2021' }) year: string;
+  @ApiProperty({ example: 'Red' }) color: string;
+  @ApiProperty({ example: 'ABC-1234' }) plates: string;
 }
 
 class TruckWithUserResponseDto extends TruckResponseDto {
-  @ApiProperty({ type: TruckUserResponseDto })
-  user: TruckUserResponseDto;
+  @ApiProperty({ type: TruckUserResponseDto }) user: TruckUserResponseDto;
 }
 
 @ApiTags('trucks')

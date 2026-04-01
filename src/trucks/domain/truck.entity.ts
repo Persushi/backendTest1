@@ -15,7 +15,6 @@ export class Truck {
   ) {}
 }
 
-// Resultado del aggregate: truck con el usuario embebido
 export class TruckWithUser {
   constructor(
     public readonly _id: string,

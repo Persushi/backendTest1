@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchemaClass, UserSchema } from '../infrastructure/user.schema';
-import { UserMongooseRepository } from '../infrastructure/user.repository';
+import { UserSchemaClass, UserSchema } from './infrastructure/user.schema';
+import { UserMongooseRepository } from './infrastructure/user.repository';
 import { USER_REPOSITORY } from '../utils/injection-tokens';
 
 @Module({

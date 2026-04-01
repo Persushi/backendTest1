@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { TRUCK_REPOSITORY } from '../utils/injection-tokens';
+import { TRUCK_REPOSITORY } from '../../utils/injection-tokens';
 import type { TruckRepositoryPort } from '../domain/truck.repository.port';
 import type { TruckWithUser } from '../domain/truck.entity';
 

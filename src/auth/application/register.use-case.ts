@@ -1,11 +1,11 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { USER_REPOSITORY, PASSWORD_HASHER, TOKEN_GENERATOR } from '../utils/injection-tokens';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { USER_REPOSITORY, PASSWORD_HASHER, TOKEN_GENERATOR } from '../../utils/injection-tokens';
 import type { UserRepositoryPort } from '../domain/user.repository.port';
 import type { PasswordHasherPort } from '../domain/password-hasher.port';
 import type { TokenGeneratorPort } from '../domain/token-generator.port';
 
 @Injectable()
-export class LoginUseCase {
+export class RegisterUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepo: UserRepositoryPort,
@@ -18,15 +18,13 @@ export class LoginUseCase {
   ) {}
 
   async execute(email: string, password: string): Promise<{ access_token: string }> {
-    const user = await this.userRepo.findByEmail(email);
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+    const existing = await this.userRepo.findByEmail(email);
+    if (existing) {
+      throw new ConflictException('Email already in use');
     }
 
-    const isMatch = await this.passwordHasher.compare(password, user.password);
-    if (!isMatch) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
+    const hashedPassword = await this.passwordHasher.hash(password);
+    const user = await this.userRepo.create(email, hashedPassword);
 
     const access_token = this.tokenGenerator.generate({
       sub: user._id,
