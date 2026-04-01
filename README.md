@@ -1,4 +1,4 @@
-![IMG_20260401_032908](https://github.com/user-attachments/assets/90725a7d-3ad2-4ebf-8a63-9a3f28e31258)# Challenge API
+# Challenge API
 
 API REST construida con NestJS, MongoDB y arquitectura hexagonal. Gestiona autenticación, locations, trucks y orders.
 
