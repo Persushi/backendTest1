@@ -6,3 +6,5 @@ export const LOCATION_REPOSITORY = Symbol('LOCATION_REPOSITORY');
 export const GOOGLE_PLACES_PORT = Symbol('GOOGLE_PLACES_PORT');
 
 export const TRUCK_REPOSITORY = Symbol('TRUCK_REPOSITORY');
+
+export const ORDER_REPOSITORY = Symbol('ORDER_REPOSITORY');

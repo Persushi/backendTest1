@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { PasswordHasherPort } from '../domain/password-hasher.port';
-import { SALT_ROUNDS } from '../utils/constants';
+import { SALT_ROUNDS } from '../../utils/constants';
 
 @Injectable()
 export class BcryptAdapter implements PasswordHasherPort {

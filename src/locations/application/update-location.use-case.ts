@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { LOCATION_REPOSITORY } from '../utils/injection-tokens';
+import { LOCATION_REPOSITORY } from '../../utils/injection-tokens';
 import type { LocationRepositoryPort, UpdateLocationData } from '../domain/location.repository.port';
 import type { Location } from '../domain/location.entity';
 

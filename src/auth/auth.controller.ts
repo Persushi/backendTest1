@@ -8,8 +8,8 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { RegisterUseCase } from '../application/register.use-case';
-import { LoginUseCase } from '../application/login.use-case';
+import { RegisterUseCase } from './application/register.use-case';
+import { LoginUseCase } from './application/login.use-case';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 

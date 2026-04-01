@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { TRUCK_REPOSITORY } from '../utils/injection-tokens';
+import { TRUCK_REPOSITORY } from '../../utils/injection-tokens';
 import type { TruckRepositoryPort } from '../domain/truck.repository.port';
 
 @Injectable()

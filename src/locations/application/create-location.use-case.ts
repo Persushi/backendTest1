@@ -1,5 +1,5 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { LOCATION_REPOSITORY, GOOGLE_PLACES_PORT } from '../utils/injection-tokens';
+import { LOCATION_REPOSITORY, GOOGLE_PLACES_PORT } from '../../utils/injection-tokens';
 import type { LocationRepositoryPort } from '../domain/location.repository.port';
 import type { GooglePlacesPort } from '../domain/google-places.port';
 import type { Location } from '../domain/location.entity';
