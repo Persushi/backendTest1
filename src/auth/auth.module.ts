@@ -13,6 +13,7 @@ import { JWT_EXPIRY } from '../utils/constants';
   imports: [
     UsersModule,
     JwtModule.register({
+      global: true,
       secret: process.env.JWT_SECRET ?? 'CHANGE_ME_IN_PRODUCTION',
       signOptions: { expiresIn: JWT_EXPIRY },
     }),
