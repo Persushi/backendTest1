@@ -1,98 +1,125 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Challenge API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST construida con NestJS, MongoDB y arquitectura hexagonal. Gestiona autenticación, locations, trucks y orders.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Notas del desarrollador
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**1. Por qué NestJS y arquitectura hexagonal**
+NestJS encaja muy bien con este enfoque porque su sistema de módulos e inyección de dependencias hacen natural separar dominio, casos de uso e infraestructura. Los puertos son interfaces, los adaptadores los implementan, y TypeScript garantiza que ninguna capa se cuele en otra.
 
-## Project setup
+**2. Docker o local, los dos funcionan**
+`docker compose up --build` levanta la API y MongoDB juntos sin instalar nada extra. Si se prefiere correr local con `npm run start:dev`, solo hay que asegurarse de que `MONGODB_URI` en el `.env` apunte a una instancia de MongoDB disponible.
 
-```bash
-$ npm install
-```
+**3. El módulo auth es mínimo a propósito**
+Solo cubre registro y login. No hay roles, ni gestión de usuarios, ni edición de perfil. Está pensado para que sea fácil extenderlo siguiendo el mismo patrón hexagonal si se necesita.
 
-## Compile and run the project
+**4. GET /orders retorna todo populado**
+Por simplicidad, el listado de orders ya incluye el aggregate completo con user, truck, pickup y dropoff. En producción lo ideal sería un listado ligero además de paginación y un `GET /orders/:id` separado para el detalle.
 
-```bash
-# development
-$ npm run start
+**5. Eliminar locations o trucks no valida orders activas**
+MongoDB no tiene foreign keys. Si se elimina un truck o una location que está referenciada en una order, esa order quedará con referencias vacias. Para evitarlo habría que validar dependencias antes del delete o implementar soft-delete.
 
-# watch mode
-$ npm run start:dev
+---
 
-# production mode
-$ npm run start:prod
-```
+## Requisitos
 
-## Run tests
+- Node.js 22+
+- npm 10+
+- MongoDB (local o en la nube) — **o** Docker + Docker Compose
+
+---
+
+## Variables de entorno
+
+Copia el archivo de ejemplo y completa los valores:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cp .env.example .env
 ```
 
-## Deployment
+| Variable | Description |
+|---|---|
+| `MONGODB_URI` | MongoDB connection string (local or Atlas) |
+| `JWT_SECRET` | Secret key for signing JWT tokens |
+| `JWT_EXPIRES_IN` | Token expiry (e.g. `1h`, `7d`) |
+| `GOOGLE_PLACES_API_KEY` | Google Places API (New) key |
+| `PORT` | Server port (default `3000`) |
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Opción 1 — Ejecución local
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+> **Nota:** `MONGODB_URI` debe apuntar a una instancia de MongoDB en ejecución, ya sea una local (`mongodb://localhost:27017/challenge`) o una cadena de conexión en la nube (MongoDB Atlas, etc.).
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## Opción 2 — Ejecución con Docker
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Levanta la API y un contenedor de MongoDB juntos. No se necesita MongoDB instalado localmente.
 
-## Support
+```bash
+# First time or after code changes
+docker compose up --build
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Subsequent runs (uses cached layers)
+docker compose up
+```
 
-## Stay in touch
+> **Nota:** `JWT_SECRET` y `GOOGLE_PLACES_API_KEY` deben estar definidos en el archivo `.env` antes de ejecutar. El compose fallará explícitamente si alguno falta.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## Documentación de la API
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Una vez que el servidor esté corriendo, la interfaz interactiva de Swagger estará disponible en:
+
+```
+http://localhost:3000/api
+```
+
+### Módulos y endpoints
+
+#### Auth — `/auth`
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/auth/register` | Register a new user, returns JWT |
+| `POST` | `/auth/login` | Authenticate and get JWT |
+
+#### Locations — `/locations`
+> Requires `Authorization: Bearer <token>`
+
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/locations` | Create a location from a Google Places `place_id` |
+| `GET` | `/locations` | List all locations |
+| `PATCH` | `/locations/:id` | Update address, latitude or longitude |
+| `DELETE` | `/locations/:id` | Delete a location |
+
+#### Trucks — `/trucks`
+> Requires `Authorization: Bearer <token>`
+
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/trucks` | Create a truck (assigned to the authenticated user) |
+| `GET` | `/trucks` | List all trucks with owner info |
+| `PATCH` | `/trucks/:id` | Update a truck (owner only) |
+| `DELETE` | `/trucks/:id` | Delete a truck (owner only) |
+
+#### Orders — `/orders`
+> Requires `Authorization: Bearer <token>`
+
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/orders` | Create an order (status starts as `created`) |
+| `GET` | `/orders` | List all orders with all references populated |
+| `PATCH` | `/orders/:id` | Update truck, pickup or dropoff (only when `created`) |
+| `PATCH` | `/orders/:id/start` | Advance status from `created` → `in_transit` |
+| `PATCH` | `/orders/:id/complete` | Advance status from `in_transit` → `completed` |
+| `DELETE` | `/orders/:id` | Delete an order (any status) |
