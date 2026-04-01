@@ -1,4 +1,4 @@
-# Challenge API
+![IMG_20260401_032908](https://github.com/user-attachments/assets/90725a7d-3ad2-4ebf-8a63-9a3f28e31258)# Challenge API
 
 API REST construida con NestJS, MongoDB y arquitectura hexagonal. Gestiona autenticación, locations, trucks y orders.
 
@@ -123,3 +123,7 @@ http://localhost:3000/api
 | `PATCH` | `/orders/:id/start` | Advance status from `created` → `in_transit` |
 | `PATCH` | `/orders/:id/complete` | Advance status from `in_transit` → `completed` |
 | `DELETE` | `/orders/:id` | Delete an order (any status) |
+
+Diagrama super sencillo hecho en la pizarra previo a hacer el proyecto (perdón la mala caligrafia)
+![IMG_20260401_032908](https://github.com/user-attachments/assets/734db8a7-3fa5-4ac2-b0e7-a223c74881c7)
+
