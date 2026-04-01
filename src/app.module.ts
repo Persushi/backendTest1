@@ -4,12 +4,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { LocationsModule } from './locations/locations.module';
+import { TrucksModule } from './trucks/trucks.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGODB_URI ?? 'mongodb://localhost:27017/challenge'),
     AuthModule,
     LocationsModule,
+    TrucksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

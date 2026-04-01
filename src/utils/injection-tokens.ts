@@ -4,3 +4,5 @@ export const TOKEN_GENERATOR = Symbol('TOKEN_GENERATOR');
 
 export const LOCATION_REPOSITORY = Symbol('LOCATION_REPOSITORY');
 export const GOOGLE_PLACES_PORT = Symbol('GOOGLE_PLACES_PORT');
+
+export const TRUCK_REPOSITORY = Symbol('TRUCK_REPOSITORY');
